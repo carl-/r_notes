@@ -1,0 +1,33 @@
+---
+title: 'Personal R notes'
+output: github_document
+---
+
+# Shiny
+## Open an hyperlink in a new tab
+```{r}
+a('Click here',
+  href = 'http://google.com/', 
+  target = '_blank')
+```
+
+## Important functions
+```{r}
+observe()
+isolate()
+DataTables()
+updateTextInput()
+reactiveValues()
+validate()
+session           # Get session info
+```
+
+## Make 2 sliders side by side
+```{r}
+wellPanel(
+  h4("Parameters"),
+  fluidRow(
+    column(6, sliderInput("CL", "Clearance", min=0, max=50, value=5)),
+    column(6, sliderInput("V", "Volume", min=0, max=100, value=10))
+  )
+```

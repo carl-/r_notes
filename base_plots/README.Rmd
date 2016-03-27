@@ -1,0 +1,118 @@
+# Plots
+## Colors
+### Make transparent colors using `rgb()`
+```{r}
+COL <- col2rgb('dodgerblue3')
+plot(..., col = rgb(COL[1], COL[2], COL[3], alpha = 255*0.5, max = 255))
+```
+
+### Palettes
+```{r}
+palette  <- c(rgb(166, 206, 227, maxColorValue = 255),
+              rgb(31 , 120, 180, maxColorValue = 255), # Blues
+              rgb(178, 223, 138, maxColorValue = 255),
+              rgb(51 , 160,  44, maxColorValue = 255), # Greens
+              rgb(251, 154, 153, maxColorValue = 255),
+              rgb(227,  26,  28, maxColorValue = 255), # Reds
+              rgb(253, 191, 111, maxColorValue = 255),
+              rgb(255, 127,   0, maxColorValue = 255), # Oranges
+              rgb(202, 178, 214, maxColorValue = 255),
+              rgb(106,  61, 154, maxColorValue = 255)) # Purples
+
+blues   <- c('dodgerblue2', 'deepskyblue2', 'cornflowerblue',
+             'dodgerblue3', 'dodgerblue4', 'darkblue')
+
+reds    <- c('tomato2', 'indianred2', 'coral')
+
+purples <- c('slateblue2', 'violetred2')
+
+greens  <- c('yellowgreen', 'chartreuse3')
+```
+
+### Create range of colors
+```{r}
+my.colorfunction <- colorRampPalette(c('white', 'orange'))
+my.colorfunction(10)
+```
+
+### Conversion between HEX and decimal
+```{r}
+as.integer(paste0('0X', string)) # hex to decimal
+as.hexmode(255)                  # decimal to hex
+```
+
+### Mimic `ggplot2` colors
+```{r}
+gg_color_hue <- function(n) {
+  hues = seq(15, 375, length = n+1)
+  hcl(h = hues, l = 65, c = 100)[1:n]
+}
+gg_color_hue(2)
+#F8766D #00BFC4
+```
+
+## File options
+### Save as png
+```{r}
+png(filename = 'graph%d.png', units = 'in', 
+    w = 12, h = 6, res = 200)
+```
+_Note: the %d in filename allows to create numbered files for each page_
+
+
+## Misc `base::plot`
+### Add loess or linear regression line
+```{r}
+plot(mtcars$wt, mtcars$mpg)
+
+# Loess line
+lines(loess.smooth(mtcars$wt, mtcars$mpg), col = 'red', lwd = 2)
+
+# Add regression line
+myLm <- lm(mpg ~ wt, data = mtcars)
+abline(myLm, col = 'blue', lwd = 2)
+
+# Print slope and intercept
+myLm$coefficients[1]
+
+# Print R^2
+summary(LM)$r.squared*100
+```
+
+### Add median of data with aggregate
+```{r}
+plot(x = data$TIME, y = data$DV, ...)
+lines(aggregate(DV ~ TIME, data = data, quantile, probs = 0.5),
+      lwd = 2, lty = 3, col = 'red')
+```
+
+### Correlation graphs
+```{r}
+pairs(iris[1:4], main = 'Title', pch = 19, 
+      col = c('red', 'green3', 'blue')[unclass(iris$Species)])
+```
+
+### Incline axis label
+```{r}
+# plot without x axis
+plot(x = x, y = y, xaxt = 'n')
+
+# Add the tick mark on the x axis
+axis(1, at = x , labels = FALSE)
+
+# Add axis label
+text(x = x, labels = x, par('usr')[3], srt = 45, 
+     adj = c(1.2, 1.7), xpd = TRUE)
+```
+
+### Reduce space between panels
+```{r}
+par(mfrow = c(1, 1), mar = c(3, 3, 1, 1)+1)
+```
+
+### Remove inner margins
+Equivalent to `cartesian_coord()` in `ggplot2`
+```{r}
+xaxs = 'i'
+yaxs = 'i'
+```
