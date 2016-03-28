@@ -409,7 +409,7 @@ system.time(mean(1:10^7))
 ```
 
     ##    user  system elapsed 
-    ##   0.044   0.010   0.055
+    ##   0.045   0.012   0.059
 
 Inform users with a message
 ---------------------------
