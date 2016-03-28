@@ -89,17 +89,30 @@ grid.arrange(P1, P2, P3, P4,
              widths = c(4, 1), heights = c(1, 4))
 ```
 
-Special smooth
---------------
+Work around smooth curves
+-------------------------
 
-Visually give less importance to edges of smooth curves by plotting data outside 90% confidence interval in light grey.
+### Classic smooth
+
+``` r
+ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width)) +
+  geom_point() +
+  geom_smooth()
+```
+
+![](README_files/figure-markdown_github/unnamed-chunk-7-1.png)<!-- -->
+
+### Special smooth
+
+The special smooth visually gives less importance to edges of the smooth curve by plotting data outside 90% confidence interval in light grey.
 
 ``` r
 # 90% CI of the Independent variable
-CI90     <- quantile(Sim$TIME, c(0.05, 0.95))
+CI90     <- quantile(iris$Sepal.Length, c(0.05, 0.95))
 
 # Generate ggplot with smooth
-Gsmooth  <- ggplot(data = Sim, aes(x = TIME, y = WRES)) +
+Gsmooth  <- ggplot(data = iris, 
+                   aes(x = Sepal.Length, y = Sepal.Width)) +
   stat_smooth(method = 'loess', se = FALSE)
 
 # Get the data from the smooth
@@ -108,29 +121,36 @@ Gsmooth  <- as.data.frame(ggplot_build(Gsmooth)$data)
 # Subset the 90% CI of the smooth
 Gsmooth  <- Gsmooth[Gsmooth$x >= CI90[1] & Gsmooth$x <= CI90[2], ]
 
-ggplot() +
+p <- ggplot()
   
-  # Rectangle showing the 90%CI
-  geom_rect(aes(xmin = CI90[1], xmax = CI90[2],
-                ymax = Inf, ymin = -Inf), 
-            alpha = 0.2, fill = 'dodgerblue3') +
+# Rectangle showing the 90%CI
+p <- p + geom_rect(aes(xmin = CI90[1], xmax = CI90[2],
+                       ymax = Inf, ymin = -Inf), 
+                   alpha = 0.2, fill = 'dodgerblue3')
   
-  # Full smooth as a grey dashed line
-  geom_smooth(data = Sim, aes(x = TIME,y = WRES), 
-              method = 'loess', se = FALSE, size = 1, 
-              col = 'grey70', linetype = 2) +
+# Full smooth as a grey line
+p <- p + geom_smooth(data = iris, aes(x = Sepal.Length, y = Sepal.Width), 
+                     method = 'loess', 
+                     se = FALSE, 
+                     size = 1, 
+                     col = 'grey70')
   
-  # 90% CI smooth as black continuous line
-  geom_line(data = Gsmooth, aes(x = x, y = y), size = 1, col = 'black') +
+# 90% CI smooth as black continuous line
+p <- p + geom_line(data = Gsmooth, aes(x = x, y = y), size = 1, col = 'black')
   
-  # Add actual data
-  geom_point(data = Sim, aes(x = TIME, y = WRES), col = 'grey35') +
+# Add actual data
+p <- p + geom_point(data = iris, aes(x = Sepal.Length, y = Sepal.Width), 
+                    col = 'grey35')
   
   # Add labels
-  geom_text(aes(x = mean(CI90), y = -6.5), 
-            label = '90% confidence interval',
-            col = 'dodgerblue4', alpha = 0.7, size = 4)
+p <- p + annotate('text', x = mean(CI90), y = -Inf, 
+                  label = '90% confidence interval',
+                  vjust = -0.5,
+                  col = 'dodgerblue4', alpha = 0.7, size = 4)
+print(p)
 ```
+
+![](README_files/figure-markdown_github/unnamed-chunk-8-1.png)<!-- -->
 
 Scales
 ------
@@ -180,7 +200,7 @@ ggplot(mtcars, aes(x = hp, y = disp)) +
   facet_wrap(~ cyl, scales = 'free_x')
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-12-1.png)<!-- -->
+![](README_files/figure-markdown_github/unnamed-chunk-13-1.png)<!-- -->
 
 Annotations
 -----------
@@ -230,7 +250,7 @@ ggplot(mtcars, aes(x = disp, y = mpg)) +
              label = labeller(.default = label_both, .multi_line = FALSE)) 
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-18-1.png)<!-- -->
+![](README_files/figure-markdown_github/unnamed-chunk-19-1.png)<!-- -->
 
 Sliders with manipulate
 -----------------------

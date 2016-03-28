@@ -70,6 +70,8 @@ purples <- c('slateblue2', 'violetred2')
 greens  <- c('yellowgreen', 'chartreuse3')
 ```
 
+![](README_files/figure-markdown_github/unnamed-chunk-5-1.png)<!-- -->
+
 ### Create range of colors
 
 ``` r
