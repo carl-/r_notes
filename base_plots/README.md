@@ -23,15 +23,18 @@ color <- '#1874cd80'
 plot(..., col = color)
 ```
 
+Conversion between HEX and decimal in R
+
 ``` r
-# Conversion between HEX and decimal in R
-as.integer(paste0('0X', 'ff'))   # hex to decimal
+# hex to decimal
+as.integer(paste0('0X', 'ff'))
 ```
 
     ## [1] 255
 
 ``` r
-as.hexmode(255)                  # decimal to hex
+# decimal to hex
+as.hexmode(255)
 ```
 
     ## [1] "ff"
