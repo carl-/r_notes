@@ -19,7 +19,7 @@ Summary
     -   [File options](graph/file_options/README.md)
     -   [R plots](graph/base_plots/README.md)
     -   [ggplot2](graph/ggplot2/README.md)
-    -   [xpose4-lattice](graph/xpose4_lattice/README.md)
+    -   [Xpose4 & lattice](graph/xpose4_lattice/README.md)
 -   [Good Packages](good_packages/README.md)
 -   [dplyr](dplyr/README.md)
 -   [Rmarkdown](rmarkdown/README.md)
